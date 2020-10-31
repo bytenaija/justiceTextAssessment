@@ -8,9 +8,8 @@ import Row from "./components/Row"
 // const DATA_SIZE_HALF = "half"
 const DATA_SIZE_FULL = "full"
 const INTERVAL_TIME = 2000
-let TOTAL_DATA_SIZE = 0
 
-const DATA_ITEMS_PER_REFRESH = 2
+const DATA_PER_PAGE = 2
 let LIST_OF_IDS = []
 
 /** Application entry point */
@@ -39,7 +38,7 @@ function App() {
       setLoading(true)
       let response = await fetch("/api/dataIdList?datasize=" + DATA_SIZE_FULL)
       let listResponse = await response.json()
-      TOTAL_DATA_SIZE = listResponse.length
+
       LIST_OF_IDS = listResponse
     }
     fetchList()
@@ -48,7 +47,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      let nextDataId = LIST_OF_IDS.slice(page, page + DATA_ITEMS_PER_REFRESH)
+      let nextDataId = LIST_OF_IDS.slice(page, page + DATA_PER_PAGE)
       let dataItems = await Promise.all(
         nextDataId.map(async (id) => {
           return (await fetch("/api/dataItem/" + id)).json()
