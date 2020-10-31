@@ -2,3 +2,7 @@ body {
   margin: 0;
   background: #4e9bfa;
 }
+
+body::-webkit-scrollbar {
+  display: none;
+}

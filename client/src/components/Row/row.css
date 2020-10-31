@@ -13,6 +13,7 @@
   box-shadow: 30px 10px 1px #000, -22px 15px 4px #8c8c8c;
   transform-origin: left;
   border: 5px solid #fff;
+  left: 0;
 }
 .page.even {
   border: 5px solid #fff;

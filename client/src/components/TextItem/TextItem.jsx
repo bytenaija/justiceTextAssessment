@@ -2,8 +2,8 @@ import React, { createRef, useEffect, useState } from "react"
 import "./TextItem.css"
 import { motion } from "framer-motion"
 
-const getHighlight = (props, visible) => {
-  if (Math.floor(props.data.info.start / 2000) % props.value === 0 && visible) {
+const getHighlight = (props) => {
+  if (Math.floor(props.data.info.start / 2000) % props.value === 0) {
     return "highlight"
   }
   return ""
@@ -12,33 +12,7 @@ const getHighlight = (props, visible) => {
 /** Component for each word controlling highlight state. */
 function TextItem(props) {
   const textItemRef = createRef()
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.intersectionRatio === 1) {
-          setVisible(true)
-        } else {
-          setVisible(false)
-        }
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 1.0,
-      }
-    )
 
-    if (textItemRef.current) {
-      observer.observe(textItemRef.current)
-    }
-
-    return () => {
-      if (textItemRef.current) {
-        observer.unobserve(textItemRef.current)
-      }
-    }
-  }, [textItemRef])
   const getEditedClip = (currentData, changeText, rowId) => {
     if (currentData.text.trim() !== changeText.trim()) {
       props.handleChange(currentData.info.start, changeText, rowId)
@@ -61,7 +35,7 @@ function TextItem(props) {
     >
       <span
         ref={textItemRef}
-        className={getHighlight(props, visible)}
+        className={getHighlight(props)}
         data-row={props.row}
         contentEditable={true}
         suppressContentEditableWarning={true}

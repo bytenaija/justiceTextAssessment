@@ -20,11 +20,10 @@
 .book-pages {
   height: 100vh;
   position: relative;
-  top: 4rem;
-  left: 12rem;
+  top: 1rem;
   transform-style: preserve-3d;
   perspective: 1000px;
-
+  width: 155vh;
   margin: auto;
 }
 
@@ -45,4 +44,10 @@ input {
   flex-direction: column;
   width: 100%;
   padding: 2rem 2rem;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 22px;
 }

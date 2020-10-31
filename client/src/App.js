@@ -10,18 +10,19 @@ const DATA_SIZE_FULL = "full"
 const INTERVAL_TIME = 2000
 let TOTAL_DATA_SIZE = 0
 
-const DATA_ITEMS_PER_REFRESH = 10
+const DATA_ITEMS_PER_REFRESH = 2
 let LIST_OF_IDS = []
 
 /** Application entry point */
 function App() {
   const [data, setData] = useState([])
-  const [searchData, setSearchData] = useState([])
+
   const [value, setValue] = useState(0)
   const [searchInput, setSearchInput] = useState("")
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
-  const [currentPages, setCurrentPages] = useState([0, 1])
+
+  const [error, setError] = useState("")
 
   /** DO NOT CHANGE THE FUNCTION BELOW */
   useEffect(() => {
@@ -32,8 +33,10 @@ function App() {
   }, [])
   /** DO NOT CHANGE THE FUNCTION ABOVE */
 
+  // This fetches the list of IDs. Ensure we only fetch it once
   useEffect(() => {
     const fetchList = async () => {
+      setLoading(true)
       let response = await fetch("/api/dataIdList?datasize=" + DATA_SIZE_FULL)
       let listResponse = await response.json()
       TOTAL_DATA_SIZE = listResponse.length
@@ -45,56 +48,50 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-
-      let nextDataId = LIST_OF_IDS.slice(
-        page,
-        (page + 1) * DATA_ITEMS_PER_REFRESH
-      )
+      let nextDataId = LIST_OF_IDS.slice(page, page + DATA_ITEMS_PER_REFRESH)
       let dataItems = await Promise.all(
         nextDataId.map(async (id) => {
           return (await fetch("/api/dataItem/" + id)).json()
         })
       )
 
-      setData(data.concat(dataItems))
+      setData(dataItems)
       setLoading(false)
     }
+    // only fetch when list of IDs has been fetched already
     if (LIST_OF_IDS.length) {
-      if (data.length < TOTAL_DATA_SIZE) fetchData()
+      fetchData()
     }
   }, [page, LIST_OF_IDS])
 
   const handleChange = (e) => {
-    const regexStr = new RegExp(searchInput, "i")
-    const searchResult = data.filter(
-      (row) =>
-        row.data.filter((item) => item.text.search(regexStr) !== -1).length > 0
-    )
     setSearchInput(e.target.value)
-
-    setSearchData(searchResult)
   }
 
   const handleTextChange = async (start, changeText, rowId) => {
-    setLoading(true)
-    let response = await fetch(`/api/update/${rowId}`, {
-      method: "POST",
-      body: JSON.stringify({
-        start,
-        text: changeText,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
+    try {
+      let response = await fetch(`/api/update/${rowId}`, {
+        method: "POST",
+        body: JSON.stringify({
+          start,
+          text: changeText,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
 
-    let results = await response.json()
+      let results = await response.json()
 
-    const allData = [...data]
-    allData[rowId].data = results.row
-
-    setData(allData)
-    setLoading(false)
+      const allData = [...data]
+      allData[rowId].data = results.row
+      // update the edited row
+      setData(allData)
+    } catch (err) {
+      console.log(err)
+      setError(err.message)
+      setTimeout(() => setError(""), 3000)
+    }
   }
   return (
     <div className="App">
@@ -108,37 +105,20 @@ function App() {
           onChange={handleChange}
         />
       </div>
-
+      {error && <div className="error">{error}</div>}
       <div className="book-pages">
-        {searchInput
-          ? searchData.map((row) => {
-              return (
-                <Row
-                  row={row}
-                  value={value}
-                  handleTextChange={handleTextChange}
-                  searchInput={searchInput}
-                  setPage={setPage}
-                  setCurrentPages={setCurrentPages}
-                  key={row.rowId}
-                  currentPages={currentPages}
-                />
-              )
-            })
-          : data.map((row) => {
-              return (
-                <Row
-                  row={row}
-                  value={value}
-                  handleTextChange={handleTextChange}
-                  searchInput={searchInput}
-                  setPage={setPage}
-                  setCurrentPages={setCurrentPages}
-                  key={row.rowId}
-                  currentPages={currentPages}
-                />
-              )
-            })}
+        {data.map((row) => {
+          return (
+            <Row
+              row={row}
+              value={value}
+              handleTextChange={handleTextChange}
+              searchInput={searchInput}
+              setPage={setPage}
+              key={row.rowId}
+            />
+          )
+        })}
       </div>
 
       {loading && (
