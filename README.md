@@ -1,3 +1,20 @@
+# Everistus Olumese Full Stack Technical Assessment
+
+## Implementation Details
+
+- I have added ability to persist changes to the server
+- Instead of sending the whole row back to the server, I choose to send the only the text that was change with specific meta-data to enable easy change and persistence
+- When you open the application you will see a it in a book format, click any whitespace in the book to navigate forward or backward.
+- All the previous functionalities still exist
+
+## Areas I could improve
+
+- Searching capability: The app currently search on the retrieved rows. I could have implemented a search functionality in the server to retrieve a search time if I had the time
+- Better code organisation: I could have moved my hooks to their own files, create helper libraries for the functions, etc
+- Better documentation: Although the task is inherently easy to accomplish and the code not difficult to understand, I could have written more/better documentation
+
+## Install Node
+
 # JusticeText Full Stack Technical Assessment
 
 Thank you so much for your interest in joining JusticeText. Please read the instructions below before you start the assessment.
@@ -13,7 +30,7 @@ Follow the instructions on the [Node.js official site](https://nodejs.org/en/dow
 Get the starter code for this assessment on your machine by cloning or downloading the contents of this repository. From there, if you are using yarn, you can run the following command to load the dependencies you need to run the starter application. Run the following command for both the server and the client.
 
 ### `yarn install`
-  
+
 ## Starting the application
 
 Once you have all of the dependencies loaded, you can run both the server and frontend simultaneously by running:

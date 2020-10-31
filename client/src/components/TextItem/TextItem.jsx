@@ -29,7 +29,7 @@ function TextItem(props) {
       }}
       transition={{
         ease: "easeOut",
-        delay: props.index / 100,
+        delay: props.index / 300,
         duration: 0.4,
       }}
     >
