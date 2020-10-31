@@ -1,0 +1,35 @@
+.page {
+  font-size: 15px;
+  line-height: 1.5;
+  position: absolute;
+  height: 85vh;
+  width: 40vw;
+  backface-visibility: hidden;
+  background-color: #eeeeee;
+}
+
+.page.odd {
+  transform: rotate3d(0, 1, 0, 10deg);
+  box-shadow: 30px 10px 1px #000, -22px 15px 4px #8c8c8c;
+  transform-origin: left;
+  border: 5px solid #fff;
+}
+.page.even {
+  border: 5px solid #fff;
+  left: 42vw;
+  top: 0px;
+  transform-origin: right;
+  transform: rotate3d(0, -1, 0, 10deg);
+  box-shadow: -30px 10px 1px #000, 22px 15px 4px #8c8c8c;
+}
+
+@media screen and (max-width: 1920px) {
+  .page {
+    font-size: 12px;
+  }
+}
+@media screen and (min-width: 1920px) {
+  .page {
+    font-size: 15px;
+  }
+}

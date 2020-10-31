@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  text-align: justify;
+  position: relative;
 }
 
 .App p {
@@ -7,4 +8,41 @@
   margin: auto;
   overflow-wrap: break-word;
   padding: 20px 0;
+}
+
+.App .loader {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50);
+}
+
+.book-pages {
+  height: 100vh;
+  position: relative;
+  top: 4rem;
+  left: 12rem;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+
+  margin: auto;
+}
+
+input {
+  width: 60%;
+  height: 3rem;
+  outline: none;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.2rem 1.5rem;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 2rem 2rem;
 }
