@@ -5,7 +5,7 @@ const path = require("path")
 const app = express()
 app.use(express.json())
 const http = require("http").createServer(app)
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 8080
 
 const data = require("./data.json")
 
