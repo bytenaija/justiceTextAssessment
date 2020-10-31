@@ -4,6 +4,8 @@
 
 - I have added ability to persist changes to the server
 - Instead of sending the whole row back to the server, I choose to send the only the text that was change with specific meta-data to enable easy change and persistence
+- Highlight happens on only open pages
+- Only viewed pages at displayed at the same time
 - When you open the application you will see a it in a book format, click any whitespace in the book to navigate forward or backward.
 - All the previous functionalities still exist
 
