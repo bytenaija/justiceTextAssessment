@@ -11,7 +11,7 @@
 
 ## Areas I could improve
 
-- Searching capability: The app currently search on the retrieved rows. I could have implemented a search functionality in the server to retrieve a search time if I had the time
+- Searching capability: The app currently search on the retrieved rows. I could have implemented a search functionality in the server to retrieve a search term if I had the time
 - Better code organisation: I could have moved my hooks to their own files, create helper libraries for the functions, etc
 - Better documentation: Although the task is inherently easy to accomplish and the code not difficult to understand, I could have written more/better documentation
 
