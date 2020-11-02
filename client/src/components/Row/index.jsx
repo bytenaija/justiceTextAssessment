@@ -64,4 +64,8 @@ const Row = ({ row, searchInput, value, handleTextChange, setPage }) => {
   )
 }
 
-export default Row
+export default React.memo(Row, (prevProps, nextProps) => {
+  return (
+    JSON.stringify(prevProps.row.data) !== JSON.stringify(nextProps.row.data)
+  )
+})

@@ -10,7 +10,6 @@ const DATA_SIZE_FULL = "full"
 const INTERVAL_TIME = 2000
 
 const DATA_PER_PAGE = 2
-let LIST_OF_IDS = []
 
 /** Application entry point */
 function App() {
@@ -20,7 +19,7 @@ function App() {
   const [searchInput, setSearchInput] = useState("")
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(0)
-
+  const [listOfIds, setListOfIds] = useState([])
   const [error, setError] = useState("")
 
   /** DO NOT CHANGE THE FUNCTION BELOW */
@@ -39,7 +38,7 @@ function App() {
       let response = await fetch("/api/dataIdList?datasize=" + DATA_SIZE_FULL)
       let listResponse = await response.json()
 
-      LIST_OF_IDS = listResponse
+      setListOfIds(listResponse)
     }
     fetchList()
   }, [])
@@ -47,7 +46,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      let nextDataId = LIST_OF_IDS.slice(page, page + DATA_PER_PAGE)
+      let nextDataId = listOfIds.slice(page, page + DATA_PER_PAGE)
       let dataItems = await Promise.all(
         nextDataId.map(async (id) => {
           return (await fetch("/api/dataItem/" + id)).json()
@@ -58,10 +57,10 @@ function App() {
       setLoading(false)
     }
     // only fetch when list of IDs has been fetched already
-    if (LIST_OF_IDS.length) {
+    if (listOfIds.length) {
       fetchData()
     }
-  }, [page, LIST_OF_IDS])
+  }, [page, listOfIds])
 
   const handleChange = (e) => {
     setSearchInput(e.target.value)
@@ -83,13 +82,16 @@ function App() {
       let results = await response.json()
 
       const allData = [...data]
-      allData[rowId].data = results.row
-      // update the edited row
-      setData(allData)
+      const idx = allData.findIndex((row) => row.rowId == rowId)
+      if (idx !== -1) {
+        allData[idx].data = results.row
+        // update the edited row
+        setData(allData)
+      }
     } catch (err) {
       console.log(err)
       setError(err.message)
-      setTimeout(() => setError(""), 3000)
+      setTimeout(() => setError(""), 9000)
     }
   }
   return (

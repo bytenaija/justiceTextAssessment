@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useState } from "react"
+import React, { createRef } from "react"
 import "./TextItem.css"
 import { motion } from "framer-motion"
 
@@ -54,4 +54,8 @@ function TextItem(props) {
   )
 }
 
-export default TextItem
+export default React.memo(TextItem, (prevProps, nextProps) => {
+  return (
+    prevProps.data !== nextProps.data && prevProps.value !== nextProps.value
+  )
+})
